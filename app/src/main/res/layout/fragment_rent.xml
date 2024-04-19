@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <AutoCompleteTextView
+        android:id="@+id/client_name_tv_rent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/input_hight"
+        android:layout_marginStart="@dimen/input_margin"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="@dimen/input_margin"
+        android:hint="Nom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/client_lastname_tv_rent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/input_hight"
+        android:layout_marginStart="@dimen/input_margin"
+        android:layout_marginTop="@dimen/input_margin"
+        android:layout_marginEnd="@dimen/input_margin"
+        android:hint="Prénom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/client_name_tv_rent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/client_phone_tv_rent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/input_hight"
+        android:layout_marginStart="@dimen/input_margin"
+        android:layout_marginTop="@dimen/input_margin"
+        android:layout_marginEnd="@dimen/input_margin"
+        android:hint="@string/phone_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/client_lastname_tv_rent" />
+
+    <EditText
+        android:id="@+id/rent_start_end_date_et"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/input_hight"
+        android:layout_marginStart="@dimen/input_margin"
+        android:layout_marginTop="@dimen/input_margin"
+        android:layout_marginEnd="@dimen/input_margin"
+        android:ems="10"
+        android:hint="Durée de Location"
+        android:inputType="datetime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/client_phone_tv_rent" />
+
+    <EditText
+        android:id="@+id/rented_bikes_count_et"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/input_hight"
+        android:layout_marginStart="@dimen/input_margin"
+        android:layout_marginTop="@dimen/input_margin"
+        android:layout_marginEnd="@dimen/input_margin"
+        android:ems="10"
+        android:hint="Nombre de vélos"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rent_start_end_date_et" />
+
+    <AutoCompleteTextView
+        android:id="@+id/deposit_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/input_hight"
+        android:layout_marginStart="@dimen/input_margin"
+        android:layout_marginTop="@dimen/input_margin"
+        android:layout_marginEnd="@dimen/input_margin"
+        android:hint="Caution"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rented_bikes_count_et" />
+
+    <EditText
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:inputType="number"
+        android:textSize="20dp"
+        android:hint="Antivols"
+        app:layout_constraintEnd_toStartOf="@+id/textView6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deposit_tv" />
+
+    <EditText
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:inputType="number"
+        android:hint="Casques"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView7"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/deposit_tv" />
+
+    <EditText
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:inputType="number"
+        android:hint="Sieges"
+        android:textSize="20dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/deposit_tv" />
+
+    <Button
+        android:id="@+id/rent_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Reserver"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Imprimer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/rent_button"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

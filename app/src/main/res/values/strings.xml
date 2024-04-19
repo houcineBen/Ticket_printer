@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">OK CA ROULE</string>
+    <string name="phone_input">Numéro de Téléphone</string>
+    <string name="input_height">50dp</string>
+</resources>

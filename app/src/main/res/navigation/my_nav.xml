@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/printFragment">
+
+    <fragment
+        android:id="@+id/printFragment"
+        android:name="com.example.ticket_printer.fragments.print.PrintFragment"
+        android:label="PrintFragment" >
+        <action
+            android:id="@+id/action_printFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.example.ticket_printer.fragments.list.ListFragment"
+        android:label="ListFragment" >
+        <action
+            android:id="@+id/action_listFragment_to_printFragment"
+            app:destination="@id/printFragment" />
+    </fragment>
+</navigation>
