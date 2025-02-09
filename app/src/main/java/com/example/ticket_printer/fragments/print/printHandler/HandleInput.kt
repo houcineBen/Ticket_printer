@@ -6,149 +6,147 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
+import android.widget.Filter
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.example.ticket_printer.R
+import com.example.ticket_printer.data.Client
+import androidx.appcompat.widget.AppCompatEditText
 import com.example.ticket_printer.data.UserViewModel
+import java.nio.file.DirectoryStream
 
-class HandleInput(view: View, context: Context) {
+class HandleInput(private val view: View, private val context: Context) {
 
-    val context = context
-    val view = view
-    val nameEditText = view.findViewById<AutoCompleteTextView>(R.id.nameEditText)
+    // In your HandleInput class
+    private val lastNameEditText = view.findViewById<AppCompatAutoCompleteTextView>(R.id.lastNameEditText)
+    private val nameEditText = view.findViewById<AppCompatAutoCompleteTextView>(R.id.nameEditText)
+    private val phoneEditText = view.findViewById<AppCompatAutoCompleteTextView>(R.id.phoneEditText)
+//    private val firstNameEditText = view.findViewById<EditText>(R.id.nameEditText)
 
-    fun handleDropDownMenu(lifecycleOwner: LifecycleOwner, mClientViewModel: UserViewModel) {
+    fun setupAutoComplete(lifecycleOwner: LifecycleOwner, viewModel: UserViewModel) {
+        setupSearchField(R.id.phoneEditText, viewModel, lifecycleOwner) { query ->
+            viewModel.searchByPhone(query)
+        }
 
-        val phoneAutoCompleteTextView: AutoCompleteTextView = view.findViewById(R.id.phoneEditText)
-        val nameAutoCompleteTextView: AutoCompleteTextView = view.findViewById(R.id.nameEditText)
-        val adapter = ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, ArrayList())
-        phoneAutoCompleteTextView.setAdapter(adapter)
-        nameAutoCompleteTextView.setAdapter(adapter)
+        setupSearchField(R.id.nameEditText, viewModel, lifecycleOwner) { query ->
+            viewModel.searchByName(query)
+        }
 
-        // Update adapter data in response to text input
-        phoneAutoCompleteTextView.addTextChangedListener(object : TextWatcher {
-            @SuppressLint("FragmentLiveDataObserve")
+        setupSearchField(R.id.lastNameEditText, viewModel, lifecycleOwner) { query ->
+            viewModel.searchByLastName(query)
+        }
+
+    }
+
+
+    @SuppressLint("FragmentLiveDataObserve")
+    private fun setupSearchField(
+        fieldId: Int,
+        viewModel: UserViewModel,
+        lifecycleOwner: LifecycleOwner,
+        queryFunction: (String) -> Unit
+    ) {
+        val autoCompleteView = view.findViewById<AutoCompleteTextView>(fieldId)
+        val adapter = ClientArrayAdapter(context, R.layout.dropdown_client_item)
+        autoCompleteView.setAdapter(adapter)
+
+        autoCompleteView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val phonePrefix = s.toString()
-                if (phonePrefix.length >= 2) { // Only query if sufficient characters are typed
-                    mClientViewModel.getClientByPhonePrefix(phonePrefix).observe(lifecycleOwner, Observer { clients ->
-                        // Transform clients to a list of strings (e.g., phone numbers)
-                        val nameAndNumber = clients.map { it.phone + "    " + it.name }
-//                        Toast.makeText(context, nameAndNumber.toString(), Toast.LENGTH_LONG).show()
-                        adapter.clear()
-                        adapter.addAll(nameAndNumber)
-                        adapter.notifyDataSetChanged()
-                    })
+                s?.takeIf { it.length >= 2 }?.let {
+                    queryFunction.invoke(it.toString())
                 }
             }
 
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-
         })
-//        phoneAutoCompleteTextView.setOnFocusChangeListener { v, hasFocus ->
-//            if (hasFocus) {
-//                val hey: List<String> = arrayListOf("kjhkhmkjmlkj", "hjhg", "kjhkjh", "jgkjhk")
-//                Toast.makeText(context, hey.toString(), Toast.LENGTH_LONG).show()
-////                adapter.clear()
-//                adapter.addAll("hjgjh")
-////                adapter.notifyDataSetChanged()
-//                phoneAutoCompleteTextView.showDropDown()
-//
-//
-//            } else {
-//
-//            }
-//        }
 
-
-
-        nameAutoCompleteTextView.addTextChangedListener(object : TextWatcher {
-            @SuppressLint("FragmentLiveDataObserve")
-            override fun afterTextChanged(s: Editable?) {
-                val name = s.toString()
-
-                mClientViewModel.getClientByName(name).observe(lifecycleOwner, Observer { clients ->
-                    // Transform clients to a list of strings (e.g., phone numbers)
-                    val nameAndNumber = clients.map { it.phone + "    " + it.name }
-
-                    adapter.clear()
-                    adapter.addAll(nameAndNumber)
-                    adapter.notifyDataSetChanged()
-                })
-
+        viewModel.clientsLiveData.observe(lifecycleOwner, Observer { clients ->
+            Log.d("DROPDOWN_DEBUG", "Observed clients: $clients")
+            adapter.clear()
+            adapter.addAll(clients)
+            adapter.notifyDataSetChanged()
+            if (autoCompleteView.isFocused) {
+                autoCompleteView.showDropDown()
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
 
         })
 
-        phoneAutoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-
-
-            // Get the selected phone number
-            val selectedNameAndPhone = adapter.getItem(position)
-
-            // Assuming you have an EditText for the name
-            val nameEditText = view.findViewById<EditText>(R.id.nameEditText)
-            val phoneEditText = view.findViewById<EditText>(R.id.phoneEditText)
-
-            // Set the name field with the selected client's name
-//            selectedClient?.let {
-//                Toast.makeText(requireContext(), selectedClient?.name, Toast.LENGTH_LONG).show()
-            phoneEditText.setText(selectedNameAndPhone!!.split("   ")[0].trim())
-            nameEditText.setText(selectedNameAndPhone!!.split("   ")[1].trim())
-//
-
-
-        }
-
-        nameAutoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-
-
-            // Get the selected phone number
-            val selectedNameAndPhone = adapter.getItem(position)
-
-            // Assuming you have an EditText for the name
-            val phoneEditText = view.findViewById<EditText>(R.id.phoneEditText)
-            val nameEditText = view.findViewById<EditText>(R.id.nameEditText)
-
-            // Set the name field with the selected client's name
-//            selectedClient?.let {
-//                Toast.makeText(requireContext(), selectedClient?.name, Toast.LENGTH_LONG).show()
-            phoneEditText.setText(selectedNameAndPhone!!.split("   ")[0].trim())
-            nameEditText.setText(selectedNameAndPhone!!.split("   ")[1].trim())
-//
-
-
+        autoCompleteView.setOnItemClickListener { _, _, position, _ ->
+            val selectedClient = adapter.getItem(position)
+            selectedClient?.let {
+                phoneEditText.setText(it.phone)
+                nameEditText.setText(it.name)
+                lastNameEditText.setText(it.lastName)
+            }
+            autoCompleteView.clearFocus()
         }
     }
 
-    fun formatPhoneNumber(phone: String): String {
-        return phone.chunked(2).joinToString(" ")
+    fun formatPhoneNumber(phone: String): String = when {
+        phone.length == 10 -> phone.chunked(2).joinToString(" ")
+        else -> phone
     }
 
-    fun inputCheck(clientName: String, phoneNumber: String): Boolean {
-        return !TextUtils.isEmpty(clientName) && phoneNumber.length == 10
+    fun validateInput(): Boolean = !TextUtils.isEmpty(nameEditText.text) &&
+            !TextUtils.isEmpty(lastNameEditText.text) &&
+            phoneEditText.text.length >= 10
+
+    fun focusNameField() {
+        lastNameEditText.requestFocus().also {
+            if (it) showSoftKeyboard(nameEditText)
+        }
     }
 
-    fun nameFocus() {
-        nameEditText.requestFocus()
+    private fun showSoftKeyboard(view: View) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    }
 
-        if (nameEditText.requestFocus()) {
-            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(nameEditText, InputMethodManager.SHOW_IMPLICIT)
+    private inner class ClientArrayAdapter(
+        context: Context,
+        resource: Int
+    ) : ArrayAdapter<Client>(context, resource) {
+
+        override fun getFilter(): Filter = object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val results = FilterResults()
+                // Since you are doing filtering externally, simply return the full list
+                results.values = (0 until count).map { getItem(it) }
+                results.count = count
+                return results
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                // Do nothing here because the list is already updated from LiveData.
+            }
+        }
+
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val view = convertView ?: LayoutInflater.from(context)
+                .inflate(R.layout.dropdown_client_item, parent, false)
+
+            getItem(position)?.let { client ->
+                view.findViewById<TextView>(R.id.tvName).text = client.name
+                view.findViewById<TextView>(R.id.tvLastName).text = client.lastName
+                view.findViewById<TextView>(R.id.tvPhone).text = formatPhoneNumber(client.phone)
+            }
+            return view
+        }
+
+        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+            return getView(position, convertView, parent)
         }
     }
 }

@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="Locations"
-        android:icon="@drawable/ic_rent"/>
+        android:icon="@drawable/ic_clients"/>
     <item
         android:id="@+id/customers_item"
         android:layout_width="wrap_content"

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Print Fragment -->
+    <item
+        android:id="@+id/printFragment"
+        android:icon="@drawable/ic_print"
+        android:title="Imprimer" />
+
+    <!-- Rent Fragment -->
+    <item
+        android:id="@+id/listFragment"
+        android:icon="@drawable/ic_clients"
+        android:title="Clients" />
+
+    <!-- QR Code Scanner Fragment -->
+    <item
+        android:id="@+id/qrCodeScannerFragment"
+        android:icon="@drawable/ic_qr_scan"
+        android:title="Scan" />
+
+    <!-- Other / Placeholder Fragment -->
+    <item
+        android:id="@+id/bikePresentFragment"
+        android:icon="@drawable/ic_fix"
+        android:title="Réparations" />
+
+</menu>

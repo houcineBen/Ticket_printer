@@ -1,11 +1,10 @@
 package com.example.ticket_printer
 
-
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.ticket_printer.databinding.ActivityMainBinding
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,12 +15,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val customers_item = binding.bottomNavigationView
-        customers_item.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_printFragment_to_listFragment)
-        }
+        // Retrieve the NavHostFragment and its NavController
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
 
-
+        // Set up the BottomNavigationView with the NavController
+        binding.bottomNavigationView.setupWithNavController(navController)
     }
-
 }

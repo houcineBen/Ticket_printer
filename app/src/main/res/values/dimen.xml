@@ -2,4 +2,7 @@
 <resources>
     <dimen name="input_hight">50dp</dimen>
     <dimen name="input_margin">20dp</dimen>
+    <dimen name="profile_text_size_1">25sp</dimen>
+    <dimen name="profile_text_size_2">15sp</dimen>
+    <dimen name="profile_parent_margin">20dp</dimen>
 </resources>

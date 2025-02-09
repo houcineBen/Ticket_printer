@@ -7,17 +7,55 @@
     <fragment
         android:id="@+id/printFragment"
         android:name="com.example.ticket_printer.fragments.print.PrintFragment"
-        android:label="PrintFragment" >
-        <action
-            android:id="@+id/action_printFragment_to_listFragment"
-            app:destination="@id/listFragment" />
-    </fragment>
+        android:label="PrintFragment" />
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.ticket_printer.fragments.list.ListFragment"
+        android:name="com.example.ticket_printer.fragments.clients_list.ListFragment"
         android:label="ListFragment" >
         <action
-            android:id="@+id/action_listFragment_to_printFragment"
-            app:destination="@id/printFragment" />
+            android:id="@+id/action_listFragment_to_clientProfileFragment"
+            app:destination="@id/clientProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/clientProfileFragment"
+        android:name="com.example.ticket_printer.fragments.ClientProfileFragment"
+        android:label="ClientProfileFragment" >
+        <argument
+            android:name="clientName"
+            app:argType="string" />
+        <argument
+            android:name="clientPhone"
+            app:argType="string" />
+        <argument
+            android:name="clientEmail"
+            app:argType="string" />
+        <argument android:name="clientLastName"
+            app:argType="string" />
+        <argument
+            android:name="clientId"
+            app:argType="long" />
+    </fragment>
+    <!-- Print Fragment -->
+    <fragment
+        android:id="@+id/printFragmentt"
+        android:name="com.example.ticket_printer.fragments.print.PrintFragment"
+        android:label="Print" >
+        <!-- Additional configuration if needed -->
+    </fragment>
+
+    <!-- QR Code Scanner Fragment -->
+    <fragment
+        android:id="@+id/qrCodeScannerFragment"
+        android:name="com.example.ticket_printer.fragments.QRCodeScannerFragment"
+        android:label="Scan" >
+        <!-- Additional configuration if needed -->
+        <action
+            android:id="@+id/action_qrCodeScannerFragment_to_clientProfileFragment"
+            app:destination="@id/clientProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bikePresentFragment"
+        android:name="com.example.ticket_printer.fragments.present_bikes.BikePresentFragment"
+        android:label="BikePresentFragment">
     </fragment>
 </navigation>

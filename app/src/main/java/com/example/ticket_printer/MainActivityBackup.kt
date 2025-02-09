@@ -56,7 +56,7 @@ class MainActivityBackup : AppCompatActivity() {
 
         checkBluetoothPermissions()
 
-        nameEditText = findViewById(R.id.nameEditText)
+        nameEditText = findViewById(R.id.lastNameEditText)
         phoneEditText = findViewById(R.id.phoneEditText)
         detailEditText = findViewById(R.id.descriptionText)
         printButton = findViewById(R.id.printButton)

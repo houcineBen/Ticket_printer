@@ -1,6 +1,8 @@
 package com.example.ticket_printer.fragments.rent
 
-class RentFragment {
+import androidx.fragment.app.Fragment
+
+class RentFragment: Fragment() {
 
 
 
